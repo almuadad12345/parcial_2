@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MercaRed - Inventario</title>
+    <!-- Hoja de estilos -->
+    <link rel="stylesheet" href="view/style.css">
+</head>
+<body>
+
+    <header>
+        <h1>MercaRed</h1>
+        <p>Sistema de control de inventario</p>
+    </header>
+
+    <main>
+
+        <!-- Formulario izquierdo -->
+        <div class="card">
+            <h2>Registrar producto</h2>
+            <form id="formProducto">
+
+                <div class="grupo">
+                    <label>Código del producto</label>
+                    <input type="text" id="codigo" placeholder="Ej: P001">
+                </div>
+
+                <div class="grupo">
+                    <label>Nombre</label>
+                    <input type="text" id="nombre" placeholder="Ej: Arroz Diana">
+                </div>
+
+                <div class="grupo">
+                    <label>Proveedor</label>
+                    <input type="text" id="proveedor" placeholder="Ej: Dist. Norte">
+                </div>
+
+                <div class="grupo">
+                    <label>Stock (unidades)</label>
+                    <input type="number" id="stock" placeholder="Ej: 50" min="1">
+                </div>
+
+                <div class="grupo">
+                    <label>Precio unitario ($)</label>
+                    <input type="number" id="precio" placeholder="Ej: 3500" min="1">
+                </div>
+
+                <div class="grupo">
+                    <label>Categoría</label>
+                    <select id="categoria" onchange="Vista.cambiarCamposExtra()">
+                        <option value="">-- Selecciona --</option>
+                        <option value="A">Alimento (5% desc.)</option>
+                        <option value="L">Limpieza (8% desc.)</option>
+                        <option value="T">Tecnología (10% desc.)</option>
+                        <option value="R">Ropa (15% desc.)</option>
+                    </select>
+                </div>
+
+                <!-- Solo visible si la categoria es Alimento -->
+                <div id="campoAlimento" class="grupo">
+                    <label>Fecha de vencimiento</label>
+                    <input type="date" id="fechaVencimiento">
+                </div>
+
+                <!-- Solo visible si la categoria es Tecnologia -->
+                <div id="campoTecno" class="grupo">
+                    <label>Meses de garantía</label>
+                    <input type="number" id="garantiaMeses" placeholder="Ej: 12" min="1">
+                </div>
+
+                <button type="button" class="btn-registrar" onclick="Controlador.registrarProducto()">
+                    + Agregar producto
+                </button>
+
+            </form>
+
+            <div id="mensaje" class="msg"></div>
+        </div>
+
+        <!-- Panel derecho -->
+        <div class="panel-derecho">
+
+            <div class="total-box">
+                <div class="etiqueta">Valor total del inventario</div>
+                <div class="valor" id="totalInventario">$0</div>
+            </div>
+
+            <div class="card">
+                <h2>Productos registrados</h2>
+                <div class="contenedor-tabla">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Proveedor</th>
+                                <th>Stock</th>
+                                <th>Precio unit.</th>
+                                <th>Categoría</th>
+                                <th>Info extra</th>
+                                <th>Precio final</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTabla">
+                            <tr>
+                                <td colspan="8" class="vacio">No hay productos registrados aun.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modelos - se cargan primero porque los demas dependen de ellos -->
+    <script src="model/producto.js"></script>
+    <script src="model/alimento.js"></script>
+    <script src="model/tecnologia.js"></script>
+
+    <!-- Vista y Controlador -->
+    <script src="view/vista.js"></script>
+    <script src="controller/controlador.js"></script>
+
+    <!-- Carga la tabla al abrir la pagina con lo que haya en localStorage -->
+    <script>
+        Controlador.cargarTabla();
+    </script>
+
+</body>
+</html>
